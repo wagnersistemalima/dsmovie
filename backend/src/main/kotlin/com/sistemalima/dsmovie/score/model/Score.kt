@@ -1,5 +1,7 @@
-package com.sistemalima.dsmovie.entity
+package com.sistemalima.dsmovie.score.model
 
+import com.sistemalima.dsmovie.movie.model.Movie
+import com.sistemalima.dsmovie.user.model.User
 import javax.persistence.EmbeddedId
 import javax.persistence.Entity
 import javax.persistence.Table
@@ -9,8 +11,12 @@ import javax.persistence.Table
 class Score(
 
     @field:EmbeddedId
-    var id: ScorePK? = null,
-    val value: Double
+    var id: ScorePK? = ScorePK(
+        movie = null,
+        user = null
+    ),
+
+    var value: Double
 ) {
     fun setMovie(movie: Movie) {
         id?.movie = movie

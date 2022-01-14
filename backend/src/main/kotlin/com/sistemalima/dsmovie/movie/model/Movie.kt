@@ -1,9 +1,11 @@
-package com.sistemalima.dsmovie.entity
+package com.sistemalima.dsmovie.movie.model
 
+import com.sistemalima.dsmovie.score.model.Score
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType.IDENTITY
 import javax.persistence.Id
+import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -16,9 +18,12 @@ class Movie(
 
     val title: String,
 
-    val score: Double,
+    var score: Double,
 
-    val count: Int,
+    var count: Int,
 
     val image: String
-)
+) {
+    @field:OneToMany(mappedBy = "id.movie")
+    val scores = mutableSetOf<Score>()
+}
