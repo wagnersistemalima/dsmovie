@@ -14,7 +14,7 @@ class User(
     @field:Id
     @field:GeneratedValue(strategy = IDENTITY)
     val id: Long? = null,
-    val email: String
+    var email: String
 ){
     fun toModel(request: ScoreDTORequest): User {
         return User(

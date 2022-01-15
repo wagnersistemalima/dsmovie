@@ -1,8 +1,8 @@
 package com.sistemalima.dsmovie.score.service
 
-import com.sistemalima.dsmovie.advice.exceptions.ScoreException
 import com.sistemalima.dsmovie.constant.ProcessingResult
 import com.sistemalima.dsmovie.movie.dtoResponse.MovieDTOResponse
+import com.sistemalima.dsmovie.movie.model.Movie
 import com.sistemalima.dsmovie.movie.repository.MovieRepository
 import com.sistemalima.dsmovie.score.model.Score
 import com.sistemalima.dsmovie.score.repository.ScoreRepository
@@ -32,29 +32,22 @@ class ScoreService(
                     "${ProcessingResult.GET_MOVIMENT_NUMBER.message} -> correlationId: $correlationId"
         )
 
-        val response = salvarNovaAvaliacaoDeUmNovousuario(request)
-
-        logger.info(
-            "${ProcessingResult.GET_MOVIMENT_NUMBER} -> microservice: Dsmovie -> " +
-                    "class: ScoreService -> method: saveScore() -> new Score save SUCCESS -> " +
-                    "${ProcessingResult.GET_MOVIMENT_NUMBER.message} -> correlationId: $correlationId"
-        )
-        return response
+        return salvaAvaliacaoUsuario(request, correlationId)
     }
 
-    fun salvarNovaAvaliacaoDeUmNovousuario(request: ScoreDTORequest): MovieDTOResponse {
+    fun salvaAvaliacaoUsuario(request: ScoreDTORequest, correlationId: String): MovieDTOResponse {
+
         if (!userRepository.existsByEmail(request.email)) {
-            val user = User(
+            val newUser = User(
                 email = request.email
             )
-            userRepository.save(user)
-
+            userRepository.save(newUser)
             val movie = movieRepository.findById(request.movieId).get()
             val score = Score(
                 value = request.score
             )
             score.setMovie(movie)
-            score.setUser(user)
+            score.setUser(newUser)
             score.value = request.score
 
             scoreRepository.save(score)
@@ -71,10 +64,42 @@ class ScoreService(
 
             movieRepository.save(movie)
             return MovieDTOResponse(movie)
+        } else {
+            val user = userRepository.findByEmail(request.email)
+            var movie = movieRepository.findById(request.movieId).get()
+
+            val score = Score(
+                value = request.score
+            )
+            score.setMovie(movie)
+            score.setUser(user)
+            score.value = request.score
+
+            // validação para que o usuario nao vote mais de uma vez no mesmo filme
+            for(avaliacao : Score in movie.scores) {
+                if (request.email.equals(avaliacao.id!!.user!!.email) && request.movieId == avaliacao.id!!.movie!!.id) {
+                    val response = MovieDTOResponse(movie)
+                    return response
+                }
+            }
+
+            scoreRepository.save(score)
+
+            movie.scores.add(score)
+
+            var sum = 0.0
+            for (s: Score in movie.scores) {
+                sum += s.value
+            }
+
+            val avg = sum / movie.scores.size
+            movie.score = avg
+            movie.count = movie.scores.size
+
+            movie = movieRepository.save(movie)
+            val response = MovieDTOResponse(movie)
+            return response
         }
-        logger.error("Error: microservice: Dsmovie -> class: ScoreService ->" +
-                " method: salvarNovaAvaliacaoDeUmNovousuario -> request: $request -> " +
-                "${ProcessingResult.SCORE_EXCEPTION} -> ${ProcessingResult.SCORE_EXCEPTION.message}")
-        throw ScoreException("Estamos trabalhando no erro")
+
     }
 }

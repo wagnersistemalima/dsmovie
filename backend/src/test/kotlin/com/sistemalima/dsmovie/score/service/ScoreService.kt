@@ -83,7 +83,7 @@ class ScoreServiceTest {
         Mockito.`when`(scoreRepository.save(scoreNovo)).thenReturn(scoreNovo)
 
         // ação
-        scoreService.salvarNovaAvaliacaoDeUmNovousuario(request)
+        scoreService.salvaAvaliacaoUsuario(request, correlationId)
 
         // assertivas
         Assertions.assertEquals(2, movie.count)

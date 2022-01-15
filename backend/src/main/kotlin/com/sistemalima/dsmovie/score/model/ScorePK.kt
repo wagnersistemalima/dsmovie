@@ -8,7 +8,7 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 
 @Embeddable
-data class ScorePK(
+class ScorePK(
 
     @field:ManyToOne
     @field:JoinColumn(name = "movie_id")
