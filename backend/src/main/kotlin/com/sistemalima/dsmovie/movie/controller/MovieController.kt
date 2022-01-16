@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @RestController
-@RequestMapping(ApiConstant.MOVIE_GET_ALL)
+@RequestMapping("/movies")
 class MovieController(
     @field:Autowired val movieService: MovieService
 ) {

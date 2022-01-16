@@ -18,7 +18,7 @@ import javax.validation.Valid
 
 @Validated
 @RestController
-@RequestMapping(ApiConstant.SCORE_POST)
+@RequestMapping("/scores")
 class ScoreController(
     @field:Autowired val scoreService: ScoreService
 ) {
