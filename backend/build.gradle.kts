@@ -32,6 +32,8 @@ dependencies {
 
     // dependencia mockito
     testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
+
+    implementation("com.zaxxer:HikariCP:4.0.3")
 }
 
 extra {
