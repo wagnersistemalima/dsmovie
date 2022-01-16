@@ -46,7 +46,7 @@ class MovieControllerTest {
 
         val movie = getFactoryMovies()
         val list = PageImpl(listOf(movie))
-        val response = list.map { movie -> MovieDTOResponse(movie) }
+        val response = list.map { MovieDTOResponse(movie) }
 
         // ação
 

@@ -33,7 +33,6 @@ class ScoreServiceTest {
     @field:Mock
     lateinit var scoreRepository: ScoreRepository
 
-
     private val movie = Movie(
         id = 1L,
         title = "Rambo",

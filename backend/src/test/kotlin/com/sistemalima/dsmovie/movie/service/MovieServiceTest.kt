@@ -36,7 +36,7 @@ class MovieServiceTest {
         // ação
 
         val list = PageImpl(listOf(movie))
-        val response = list.map { movie -> MovieDTOResponse(movie) }
+        val response = list.map { MovieDTOResponse(it) }
         val correlationId = UUID.randomUUID().toString()
 
         // comportamento
