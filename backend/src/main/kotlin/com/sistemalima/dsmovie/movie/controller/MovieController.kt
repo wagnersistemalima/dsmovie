@@ -1,5 +1,6 @@
 package com.sistemalima.dsmovie.movie.controller
 
+import com.sistemalima.dsmovie.constant.ApiConstant
 import com.sistemalima.dsmovie.constant.ProcessingResult
 import com.sistemalima.dsmovie.movie.dtoResponse.MovieDTOResponse
 import com.sistemalima.dsmovie.movie.service.MovieService
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @RestController
-@RequestMapping("/movies")
+@RequestMapping(ApiConstant.MOVIE_GET_ALL)
 class MovieController(
     @field:Autowired val movieService: MovieService
 ) {
