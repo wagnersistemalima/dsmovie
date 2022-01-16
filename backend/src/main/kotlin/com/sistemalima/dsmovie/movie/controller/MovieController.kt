@@ -52,7 +52,7 @@ class MovieController(
         return ResponseEntity.ok().body(response)
     }
 
-    @GetMapping(value = ["/{id}"])
+    @GetMapping(name = "/{id}")
     fun findById(@PathVariable("id") id: Long): ResponseEntity<MovieDTOResponse> {
 
         val correlationId = UUID.randomUUID().toString()
