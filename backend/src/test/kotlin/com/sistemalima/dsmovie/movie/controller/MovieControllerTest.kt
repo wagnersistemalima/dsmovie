@@ -2,7 +2,6 @@ package com.sistemalima.dsmovie.movie.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.sistemalima.dsmovie.advice.exceptions.ResourceNotFoundException
-import com.sistemalima.dsmovie.constant.ApiConstant
 import com.sistemalima.dsmovie.movie.dtoResponse.MovieDTOResponse
 import com.sistemalima.dsmovie.movie.model.Movie
 import com.sistemalima.dsmovie.movie.service.MovieService
@@ -43,7 +42,7 @@ class MovieControllerTest {
     fun `should return 200 ok with a paginated list of movies`() {
         // cenario
 
-        val uri = URI(ApiConstant.MOVIE_GET_ALL)
+        val uri = URI("/movies")
 
         val movie = getFactoryMovies()
         val list = PageImpl(listOf(movie))
@@ -68,7 +67,7 @@ class MovieControllerTest {
         // cenario
 
         val idMovieValid = 1L
-        val uri = UriComponentsBuilder.fromUriString(ApiConstant.MOVIE_GET_ALL + "/{id}").buildAndExpand(idMovieValid).toUri()
+        val uri = UriComponentsBuilder.fromUriString("/movies" + "/{id}").buildAndExpand(idMovieValid).toUri()
 
         val movie = getFactoryMovies()
         val response = MovieDTOResponse(movie)
@@ -92,7 +91,7 @@ class MovieControllerTest {
         // cenario
 
         val idMovieValid = 5000L
-        val uri = UriComponentsBuilder.fromUriString(ApiConstant.MOVIE_GET_ALL + "/{id}").buildAndExpand(idMovieValid).toUri()
+        val uri = UriComponentsBuilder.fromUriString("/movies" + "/{id}").buildAndExpand(idMovieValid).toUri()
 
         // ação
 
